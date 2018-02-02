@@ -1,0 +1,26 @@
+{
+  "name": "soph-comparator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sophComparator.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ovidiugiorgi/soph-comparator.git"
+  },
+  "author": "Ovidiu Giorgi <ovidiugiorgi@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ovidiugiorgi/soph-comparator/issues"
+  },
+  "homepage": "https://github.com/ovidiugiorgi/soph-comparator#readme",
+  "devDependencies": {
+    "eslint": "^4.16.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jest": "^21.7.0",
+    "jest": "^22.1.4"
+  }
+}
