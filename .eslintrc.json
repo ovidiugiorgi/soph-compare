@@ -1,6 +1,9 @@
 {
   "extends": "airbnb-base",
   "plugins": ["jest"],
+  "rules": {
+    "consistent-return": "off"
+  },
   "env": {
     "jest/globals": true
   }
