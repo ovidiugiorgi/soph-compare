@@ -8,10 +8,13 @@ const compare = (a, b) => {
   return 0;
 };
 
-const inverseCompare = (a, b) => -1 * compare(a, b);
+const getCompareFunction = (orderItem) => {
+  const compareFunction = orderItem.comparator ? orderItem.comparator : compare;
 
-const getCompareFunction = (direction) =>
-  direction === 'DESC' ? inverseCompare : compare;
+  return orderItem.direction === 'DESC'
+    ? (a, b) => -1 * compareFunction(a, b)
+    : compareFunction;
+};
 
 const getValue = (a, orderItem) =>
   orderItem.converter
@@ -24,13 +27,13 @@ const sophComparator = (orderList) => {
   }
 
   if (orderList.length === 1 && orderList[0].direction) {
-    return getCompareFunction(orderList[0].direction);
+    return getCompareFunction(orderList[0]);
   }
 
   return (a, b) => {
     for (let index = 0; index < orderList.length; index += 1) {
       const orderItem = orderList[index];
-      const compareFunction = getCompareFunction(orderItem.direction);
+      const compareFunction = getCompareFunction(orderItem);
       const compareResult = compareFunction(
         getValue(a, orderItem),
         getValue(b, orderItem)

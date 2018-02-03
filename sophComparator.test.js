@@ -201,3 +201,181 @@ it('returns comparator when order items have converter from string to number', (
     },
   ]);
 });
+
+it('returns a comparator when order items have basic comparators attached', () => {
+  const arr = [
+    {
+      price: 32,
+      name: 'soy sauce packet',
+      vendors: {
+        count: 10,
+        location: 'RO',
+      },
+    },
+    {
+      price: 48,
+      name: 'bread',
+      vendors: {
+        count: 3,
+        location: 'UK',
+      },
+    },
+    {
+      price: 15,
+      name: 'avocado',
+      vendors: {
+        count: 15,
+        location: 'DE',
+      },
+    },
+    {
+      price: 8,
+      name: 'kiwi',
+      vendors: {
+        count: 15,
+        location: 'ES',
+      },
+    },
+  ];
+
+  const cfg = [
+    {
+      prop: 'vendors',
+      comparator: (a, b) => a.count - b.count,
+    },
+    {
+      prop: 'price',
+    },
+    {
+      prop: 'name',
+    },
+  ];
+
+  expect(arr.sort(sophComparator(cfg))).toEqual([
+    {
+      price: 48,
+      name: 'bread',
+      vendors: {
+        count: 3,
+        location: 'UK',
+      },
+    },
+    {
+      price: 32,
+      name: 'soy sauce packet',
+      vendors: {
+        count: 10,
+        location: 'RO',
+      },
+    },
+    {
+      price: 8,
+      name: 'kiwi',
+      vendors: {
+        count: 15,
+        location: 'ES',
+      },
+    },
+    {
+      price: 15,
+      name: 'avocado',
+      vendors: {
+        count: 15,
+        location: 'DE',
+      },
+    },
+  ]);
+});
+
+it('returns comparator when order items have soph comparators attached', () => {
+  const arr = [
+    {
+      price: 32,
+      name: 'soy sauce packet',
+      vendors: {
+        count: 10,
+        location: 'RO',
+      },
+    },
+    {
+      price: 48,
+      name: 'bread',
+      vendors: {
+        count: 3,
+        location: 'UK',
+      },
+    },
+    {
+      price: 15,
+      name: 'avocado',
+      vendors: {
+        count: 15,
+        location: 'DE',
+      },
+    },
+    {
+      price: 8,
+      name: 'kiwi',
+      vendors: {
+        count: 15,
+        location: 'NZ',
+      },
+    },
+  ];
+
+  const cfg = [
+    {
+      prop: 'vendors',
+      comparator: sophComparator([
+        {
+          prop: 'count',
+        },
+        {
+          prop: 'location',
+          direction: 'DESC',
+        },
+      ]),
+    },
+    {
+      prop: 'price',
+    },
+    {
+      prop: 'name',
+    },
+  ];
+
+  expect(arr.sort(sophComparator(cfg))).toEqual([
+    {
+      price: 48,
+      name: 'bread',
+      vendors: {
+        count: 3,
+        location: 'UK',
+      },
+    },
+    {
+      price: 32,
+      name: 'soy sauce packet',
+      vendors: {
+        count: 10,
+        location: 'RO',
+      },
+    },
+    {
+      price: 8,
+      name: 'kiwi',
+      vendors: {
+        count: 15,
+        location: 'NZ',
+      },
+    },
+    {
+      price: 15,
+      name: 'avocado',
+      vendors: {
+        count: 15,
+        location: 'DE',
+      },
+    },
+  ]);
+});
