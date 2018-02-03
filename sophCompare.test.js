@@ -1,25 +1,25 @@
-const sophComparator = require('./sophComparator');
+const sophCompare = require('./sophCompare');
 
 describe('no order provided', () => {
-  it('returns comparator if no order is provided - numbers', () => {
+  it('returns soph compare if no order is provided - numbers', () => {
     const arr = [5, 4, -2, 12, 11, 4];
     const arrSorted = [...arr].sort((a, b) => a - b);
 
-    expect(arr.sort(sophComparator())).toEqual(arrSorted);
+    expect(arr.sort(sophCompare())).toEqual(arrSorted);
   });
 
-  it('returns comparator if no order is provided - strings', () => {
+  it('returns soph compare if no order is provided - strings', () => {
     const arr = ['flower', 'water', 'conditioner', 'water'];
     const arrSorted = [...arr].sort((a, b) => a > b);
 
-    expect(arr.sort(sophComparator())).toEqual(arrSorted);
+    expect(arr.sort(sophCompare())).toEqual(arrSorted);
   });
 
-  it('returns comparator if an empty order list is provided', () => {
+  it('returns soph compare if an empty order list is provided', () => {
     const arr = [5, 4, -2, 12, 11, 4];
     const arrSorted = [...arr].sort((a, b) => a - b);
 
-    expect(arr.sort(sophComparator([]))).toEqual(arrSorted);
+    expect(arr.sort(sophCompare([]))).toEqual(arrSorted);
   });
 });
 
@@ -30,16 +30,14 @@ describe('prop', () => {
         descending: true,
       },
       {
-        converter: (a) => a + 1,
+        converterFn: (a) => a + 1,
       },
     ];
 
-    expect(sophComparator(cfg)).toThrowError(
-      'No "prop" on order item provided'
-    );
+    expect(sophCompare(cfg)).toThrowError('No "prop" on order item provided');
   });
 
-  it('returns comparator when order list has items with prop attached', () => {
+  it('returns soph compare when order list has items with prop attached', () => {
     const arr = [
       {
         price: 32,
@@ -64,7 +62,7 @@ describe('prop', () => {
       },
     ];
 
-    expect(arr.sort(sophComparator(cfg))).toEqual([
+    expect(arr.sort(sophCompare(cfg))).toEqual([
       {
         price: 14,
         name: 'avocado',
@@ -82,7 +80,7 @@ describe('prop', () => {
 });
 
 describe('descending', () => {
-  it('returns comparator when order list contains only descending: true', () => {
+  it('returns soph compare when order list contains only descending: true', () => {
     const arr = [4, 2, 5, 8, 10];
     const arrSorted = [...arr].sort((a, b) => a < b);
 
@@ -92,10 +90,10 @@ describe('descending', () => {
       },
     ];
 
-    expect(arr.sort(sophComparator(cfg))).toEqual(arrSorted);
+    expect(arr.sort(sophCompare(cfg))).toEqual(arrSorted);
   });
 
-  it('returns comparator when order items have descending: true', () => {
+  it('returns soph compare when order items have descending: true', () => {
     const arr = [
       {
         price: 32,
@@ -121,7 +119,7 @@ describe('descending', () => {
       },
     ];
 
-    expect(arr.sort(sophComparator(cfg))).toEqual([
+    expect(arr.sort(sophCompare(cfg))).toEqual([
       {
         price: 14,
         name: 'bread',
@@ -138,20 +136,20 @@ describe('descending', () => {
   });
 });
 
-describe('converter', () => {
-  it('returns comparator when only one order item is provided and it has a converter function attached', () => {
+describe('converterFn', () => {
+  it('returns soph compare when only one order item is provided and it has a converterFn function attached', () => {
     const arr = [1, 2, 3];
 
     const cfg = [
       {
-        converter: (a) => a % 2 === 0,
+        converterFn: (a) => a % 2 === 0,
       },
     ];
 
-    expect(arr.sort(sophComparator(cfg))).toEqual([1, 3, 2]);
+    expect(arr.sort(sophCompare(cfg))).toEqual([1, 3, 2]);
   });
 
-  it('returns comparator when order items have a converter function attached: any to boolean', () => {
+  it('returns soph compare when order items have a converterFn function attached: any to boolean', () => {
     const arr = [
       {
         price: 32,
@@ -170,7 +168,7 @@ describe('converter', () => {
     const cfg = [
       {
         prop: 'price',
-        converter: (a) => a % 2 === 0,
+        converterFn: (a) => a % 2 === 0,
         descending: true,
       },
       {
@@ -178,7 +176,7 @@ describe('converter', () => {
       },
     ];
 
-    expect(arr.sort(sophComparator(cfg))).toEqual([
+    expect(arr.sort(sophCompare(cfg))).toEqual([
       {
         price: 48,
         name: 'bread',
@@ -194,7 +192,7 @@ describe('converter', () => {
     ]);
   });
 
-  it('returns comparator when order items have a converter function attached: string to number', () => {
+  it('returns soph compare when order items have a converterFn function attached: string to number', () => {
     const arr = [
       {
         price: 32,
@@ -213,14 +211,14 @@ describe('converter', () => {
     const cfg = [
       {
         prop: 'name',
-        converter: (a) => a.length,
+        converterFn: (a) => a.length,
       },
       {
         prop: 'price',
       },
     ];
 
-    expect(arr.sort(sophComparator(cfg))).toEqual([
+    expect(arr.sort(sophCompare(cfg))).toEqual([
       {
         price: 48,
         name: 'bread',
@@ -236,23 +234,23 @@ describe('converter', () => {
     ]);
   });
 
-  it('throws error when only one order item is provided and it has a converter attached which is not a function', () => {
+  it('throws error when only one order item is provided and it has a converterFn attached which is not a function', () => {
     const arr = [1, 2, 3];
 
     const cfg = [
       {
-        converter: 2,
+        converterFn: 2,
       },
     ];
 
     try {
-      expect(arr.sort(sophComparator(cfg))).toThrow();
+      expect(arr.sort(sophCompare(cfg))).toThrow();
     } catch (error) {
-      expect(error.message).toBe('Provided "converter" is not a function');
+      expect(error.message).toBe('Provided "converterFn" is not a function');
     }
   });
 
-  it('throws error when order items have a converter attached which is not a function', () => {
+  it('throws error when order items have a converterFn attached which is not a function', () => {
     const arr = [
       {
         price: 32,
@@ -275,21 +273,21 @@ describe('converter', () => {
     const cfg = [
       {
         prop: 'price',
-        converter: 2,
+        converterFn: 2,
         descending: true,
       },
     ];
 
     try {
-      expect(arr.sort(sophComparator(cfg))).toThrow();
+      expect(arr.sort(sophCompare(cfg))).toThrow();
     } catch (error) {
-      expect(error.message).toBe('Provided "converter" is not a function');
+      expect(error.message).toBe('Provided "converterFn" is not a function');
     }
   });
 });
 
-describe('comparator', () => {
-  it('returns a comparator when only one order item is provided and it has a comparator function attached', () => {
+describe('compareFn', () => {
+  it('returns soph compare when only one order item is provided and it has a compareFn function attached', () => {
     const arr = [
       {
         price: 32,
@@ -311,11 +309,11 @@ describe('comparator', () => {
 
     const cfg = [
       {
-        comparator: (a, b) => a.price - b.price,
+        compareFn: (a, b) => a.price - b.price,
       },
     ];
 
-    expect(arr.sort(sophComparator(cfg))).toEqual([
+    expect(arr.sort(sophCompare(cfg))).toEqual([
       {
         price: 12,
         name: 'bread',
@@ -335,7 +333,7 @@ describe('comparator', () => {
     ]);
   });
 
-  it('returns a comparator when order items have basic comparators attached', () => {
+  it('returns soph compare when order items have basic compareFns attached', () => {
     const arr = [
       {
         price: 32,
@@ -374,7 +372,7 @@ describe('comparator', () => {
     const cfg = [
       {
         prop: 'vendors',
-        comparator: (a, b) => a.count - b.count,
+        compareFn: (a, b) => a.count - b.count,
       },
       {
         prop: 'price',
@@ -384,7 +382,7 @@ describe('comparator', () => {
       },
     ];
 
-    expect(arr.sort(sophComparator(cfg))).toEqual([
+    expect(arr.sort(sophCompare(cfg))).toEqual([
       {
         price: 48,
         name: 'bread',
@@ -420,7 +418,7 @@ describe('comparator', () => {
     ]);
   });
 
-  it('returns comparator when order items have soph comparators attached', () => {
+  it('returns soph compare when order items have soph compareFns attached', () => {
     const arr = [
       {
         price: 32,
@@ -459,7 +457,7 @@ describe('comparator', () => {
     const cfg = [
       {
         prop: 'vendors',
-        comparator: sophComparator([
+        compareFn: sophCompare([
           {
             prop: 'count',
           },
@@ -477,7 +475,7 @@ describe('comparator', () => {
       },
     ];
 
-    expect(arr.sort(sophComparator(cfg))).toEqual([
+    expect(arr.sort(sophCompare(cfg))).toEqual([
       {
         price: 48,
         name: 'bread',
@@ -513,7 +511,7 @@ describe('comparator', () => {
     ]);
   });
 
-  it('throws error when only one order item is provided and it has a comparator attached which is not a function', () => {
+  it('throws error when only one order item is provided and it has a compareFn attached which is not a function', () => {
     const arr = [
       {
         price: 32,
@@ -535,18 +533,18 @@ describe('comparator', () => {
 
     const cfg = [
       {
-        comparator: 2,
+        compareFn: 2,
       },
     ];
 
     try {
-      expect(arr.sort(sophComparator(cfg))).toThrow();
+      expect(arr.sort(sophCompare(cfg))).toThrow();
     } catch (error) {
-      expect(error.message).toBe('Provided "comparator" is not a function');
+      expect(error.message).toBe('Provided "compareFn" is not a function');
     }
   });
 
-  it('throws error when order items have a comparator attached which is not a function', () => {
+  it('throws error when order items have a compareFn attached which is not a function', () => {
     const arr = [
       {
         price: 32,
@@ -569,14 +567,14 @@ describe('comparator', () => {
     const cfg = [
       {
         property: 'price',
-        comparator: 2,
+        compareFn: 2,
       },
     ];
 
     try {
-      expect(arr.sort(sophComparator(cfg))).toThrow();
+      expect(arr.sort(sophCompare(cfg))).toThrow();
     } catch (error) {
-      expect(error.message).toBe('Provided "comparator" is not a function');
+      expect(error.message).toBe('Provided "compareFn" is not a function');
     }
   });
 });
