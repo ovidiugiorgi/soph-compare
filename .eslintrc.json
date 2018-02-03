@@ -2,7 +2,9 @@
   "extends": "airbnb-base",
   "plugins": ["jest"],
   "rules": {
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "arrow-parens": "off",
+    "no-confusing-arrow": "off"
   },
   "env": {
     "jest/globals": true
