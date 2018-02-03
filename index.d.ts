@@ -1,12 +1,12 @@
-export = sophComparator;
+export = sophCompare;
 
-declare function sophComparator(orderList: OrderItem[]): (a: T, b: T) => number;
+declare function sophCompare(orderList: OrderItem[]): (a: T, b: T) => number;
 
-declare namespace sophComparator {
+declare namespace sophCompare {
   export interface OrderItem {
-    prop: string | number;
-    descending: boolean;
-    converterFn: (a: T) => T;
-    compareFn: (a: T, b: T) => number;
+    prop?: string | number;
+    descending?: boolean;
+    converterFn?: (a: T) => T;
+    compareFn?: (a: T, b: T) => number;
   }
 }
