@@ -23,7 +23,7 @@ const getCompareFunction = (orderItem) => {
     ? getSafeFunction(orderItem, 'comparator')
     : compare;
 
-  return orderItem.direction === 'DESC'
+  return orderItem.descending
     ? (a, b) => -1 * compareFunction(a, b)
     : compareFunction;
 };

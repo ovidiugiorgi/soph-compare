@@ -24,7 +24,7 @@ it('returns comparator if an empty order list is provided', () => {
 it('throws error when order items do not have "prop"', () => {
   const cfg = [
     {
-      direction: 'DESC',
+      descending: true,
     },
     {
       converter: (a) => a + 1,
@@ -75,20 +75,20 @@ it('returns comparator when order list has items with prop attached', () => {
   ]);
 });
 
-it('returns comparator when order list contains only DESC direction', () => {
+it('returns comparator when order list contains only descending: true', () => {
   const arr = [4, 2, 5, 8, 10];
   const arrSorted = [...arr].sort((a, b) => a < b);
 
   const cfg = [
     {
-      direction: 'DESC',
+      descending: true,
     },
   ];
 
   expect(arr.sort(sophComparator(cfg))).toEqual(arrSorted);
 });
 
-it('returns comparator when only one order item is provided and has DESC direction attached', () => {
+it('returns comparator when order items have descending: true', () => {
   const arr = [
     {
       price: 32,
@@ -110,7 +110,7 @@ it('returns comparator when only one order item is provided and has DESC directi
     },
     {
       prop: 'name',
-      direction: 'DESC',
+      descending: true,
     },
   ];
 
@@ -162,7 +162,7 @@ it('returns comparator when order items have a converter function attached: any 
     {
       prop: 'price',
       converter: (a) => a % 2 === 0,
-      direction: 'DESC',
+      descending: true,
     },
     {
       prop: 'name',
@@ -267,7 +267,7 @@ it('throws error when order items have a converter attached which is not a funct
     {
       prop: 'price',
       converter: 2,
-      direction: 'DESC',
+      descending: true,
     },
   ];
 
@@ -454,7 +454,7 @@ it('returns comparator when order items have soph comparators attached', () => {
         },
         {
           prop: 'location',
-          direction: 'DESC',
+          descending: true,
         },
       ]),
     },
