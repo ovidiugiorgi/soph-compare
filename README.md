@@ -10,6 +10,40 @@ Enter **_soph compare_**: an utility function that aims to reduce the need for c
 
 By allowing the configuration to receive a compare function you can specifiy precisely the desired order of your object, _no matter how many more containg objects it contains_ (different ordering rules will be generated separately).
 
+## Usage
+
+1. Get the package from npm
+```
+npm install soph-compare
+```
+2. Import it in your project
+
+  * require 
+```javascript
+const sophCompare = require('soph-compare)
+```
+  * ES6 import
+```javascript
+import * as sophCompare from 'soph-compare'
+```
+
+3. Define a configuration object and call sophCompare to get the compare function
+```javascript
+const cfg = [
+  {
+    prop: 'myProp',
+    descending: true
+  },
+  {
+    prop: 'anotherProp'
+  }
+];
+const compare = sophCompare(cfg);
+
+compare(arr1, arr2); // -1, 0, 1
+arr3.sort(compare);
+```
+
 ## API
 
 ```javascript
