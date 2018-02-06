@@ -20,7 +20,7 @@ npm install soph-compare
 
   * require 
 ```javascript
-const sophCompare = require('soph-compare)
+const sophCompare = require('soph-compare')
 ```
   * ES6 import
 ```javascript
@@ -40,20 +40,20 @@ const cfg = [
 ];
 const compare = sophCompare(cfg);
 
-compare(arr1, arr2); // -1, 0, 1
+compare(arr1, arr2);
 arr3.sort(compare);
 ```
 
 ## API
 
 ```javascript
-function sophCompare(orderList?: OrderItem[]): (a: T, b: T) => number;
+function sophCompare(cfg?: OrderItem[]): (a, b) => number;
 
 interface OrderItem {
     prop?: string | number;
     descending?: boolean;
-    converterFn?: (a: T) => T;
-    compareFn?: (a: T, b: T) => number;
+    converterFn?: (a) => any;
+    compareFn?: (a, b) => number;
 }
 ```
 
