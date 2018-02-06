@@ -29,7 +29,7 @@ const getCompareFunction = (orderItem) => {
 };
 
 const getValue = (a, orderItem) => {
-  if (!orderItem.prop) {
+  if (!orderItem.prop && orderItem.prop !== 0) {
     throw new Error('No "prop" on order item provided');
   }
 

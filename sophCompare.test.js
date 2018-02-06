@@ -1,21 +1,21 @@
 const sophCompare = require('./sophCompare');
 
 describe('no order provided', () => {
-  it('returns soph compare if no order is provided - numbers', () => {
+  it('should return soph compare if no order is provided - numbers', () => {
     const arr = [5, 4, -2, 12, 11, 4];
     const arrSorted = [...arr].sort((a, b) => a - b);
 
     expect(arr.sort(sophCompare())).toEqual(arrSorted);
   });
 
-  it('returns soph compare if no order is provided - strings', () => {
+  it('should return soph compare if no order is provided - strings', () => {
     const arr = ['flower', 'water', 'conditioner', 'water'];
     const arrSorted = [...arr].sort((a, b) => a > b);
 
     expect(arr.sort(sophCompare())).toEqual(arrSorted);
   });
 
-  it('returns soph compare if an empty order list is provided', () => {
+  it('should return soph compare if an empty order list is provided', () => {
     const arr = [5, 4, -2, 12, 11, 4];
     const arrSorted = [...arr].sort((a, b) => a - b);
 
@@ -37,7 +37,7 @@ describe('prop', () => {
     expect(sophCompare(cfg)).toThrowError('No "prop" on order item provided');
   });
 
-  it('returns soph compare when order list has items with prop attached', () => {
+  it('should return soph compare when order list has items with prop attached', () => {
     const arr = [
       {
         price: 32,
@@ -77,10 +77,33 @@ describe('prop', () => {
       },
     ]);
   });
+
+  it('should return soph compare when "prop" is of type number', () => {
+    const arr = [
+      [4, 5, 6],
+      [1, 2, 6],
+      [1, 10, 5]
+    ];
+
+    const cfg = [
+      {
+        prop: 0
+      },
+      {
+        prop: 2
+      }
+    ];
+
+    expect(arr.sort(sophCompare(cfg))).toEqual([
+      [1, 10, 5],
+      [1, 2, 6],
+      [4, 5, 6]
+    ]);
+  });
 });
 
 describe('descending', () => {
-  it('returns soph compare when order list contains only descending: true', () => {
+  it('should return soph compare when order list contains only descending: true', () => {
     const arr = [4, 2, 5, 8, 10];
     const arrSorted = [...arr].sort((a, b) => a < b);
 
@@ -93,7 +116,7 @@ describe('descending', () => {
     expect(arr.sort(sophCompare(cfg))).toEqual(arrSorted);
   });
 
-  it('returns soph compare when order items have descending: true', () => {
+  it('should return soph compare when order items have descending: true', () => {
     const arr = [
       {
         price: 32,
@@ -137,7 +160,7 @@ describe('descending', () => {
 });
 
 describe('converterFn', () => {
-  it('returns soph compare when only one order item is provided and it has a converterFn function attached', () => {
+  it('should return soph compare when only one order item is provided and it has a converterFn function attached', () => {
     const arr = [1, 2, 3];
 
     const cfg = [
@@ -149,7 +172,7 @@ describe('converterFn', () => {
     expect(arr.sort(sophCompare(cfg))).toEqual([1, 3, 2]);
   });
 
-  it('returns soph compare when order items have a converterFn function attached: any to boolean', () => {
+  it('should return soph compare when order items have a converterFn function attached: any to boolean', () => {
     const arr = [
       {
         price: 32,
@@ -192,7 +215,7 @@ describe('converterFn', () => {
     ]);
   });
 
-  it('returns soph compare when order items have a converterFn function attached: string to number', () => {
+  it('should return soph compare when order items have a converterFn function attached: string to number', () => {
     const arr = [
       {
         price: 32,
@@ -287,7 +310,7 @@ describe('converterFn', () => {
 });
 
 describe('compareFn', () => {
-  it('returns soph compare when only one order item is provided and it has a compareFn function attached', () => {
+  it('should return soph compare when only one order item is provided and it has a compareFn function attached', () => {
     const arr = [
       {
         price: 32,
@@ -333,7 +356,7 @@ describe('compareFn', () => {
     ]);
   });
 
-  it('returns soph compare when order items have basic compareFns attached', () => {
+  it('should return soph compare when order items have basic compareFns attached', () => {
     const arr = [
       {
         price: 32,
@@ -418,7 +441,7 @@ describe('compareFn', () => {
     ]);
   });
 
-  it('returns soph compare when order items have soph compareFns attached', () => {
+  it('should return soph compare when order items have soph compareFns attached', () => {
     const arr = [
       {
         price: 32,
