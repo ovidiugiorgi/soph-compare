@@ -40,7 +40,7 @@ const getValue = (a, orderItem) => {
     : value;
 };
 
-const sophComparator = (orderList) => {
+const sophCompare = (orderList) => {
   if (!orderList || orderList.length === 0) {
     return compare;
   }
@@ -77,4 +77,4 @@ const sophComparator = (orderList) => {
   };
 };
 
-module.exports = sophComparator;
+module.exports = sophCompare;

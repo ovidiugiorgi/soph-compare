@@ -79,25 +79,21 @@ describe('prop', () => {
   });
 
   it('should return soph compare when "prop" is of type number', () => {
-    const arr = [
-      [4, 5, 6],
-      [1, 2, 6],
-      [1, 10, 5]
-    ];
+    const arr = [[4, 5, 6], [1, 2, 6], [1, 10, 5]];
 
     const cfg = [
       {
-        prop: 0
+        prop: 0,
       },
       {
-        prop: 2
-      }
+        prop: 2,
+      },
     ];
 
     expect(arr.sort(sophCompare(cfg))).toEqual([
       [1, 10, 5],
       [1, 2, 6],
-      [4, 5, 6]
+      [4, 5, 6],
     ]);
   });
 });
