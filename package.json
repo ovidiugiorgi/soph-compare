@@ -7,6 +7,11 @@
     "build": "npx babel src/sophCompare.js --out-file dist/sophCompare.js",
     "test": "jest"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ovidiugiorgi/soph-compare.git"
@@ -24,6 +29,9 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jest": "^21.7.0",
-    "jest": "^22.1.4"
+    "husky": "^0.15.0-rc.8",
+    "jest": "^22.1.4",
+    "prettier": "^1.10.2",
+    "pretty-quick": "^1.4.1"
   }
 }
