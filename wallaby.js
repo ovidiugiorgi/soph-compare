@@ -1,7 +1,7 @@
 module.exports = () => ({
-  files: ['sophCompare.js'],
+  files: ['src/sophCompare.js'],
 
-  tests: ['sophCompare.test.js'],
+  tests: ['src/sophCompare.test.js'],
 
   env: {
     type: 'node',
