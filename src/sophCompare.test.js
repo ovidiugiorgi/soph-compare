@@ -31,6 +31,44 @@ describe('config', () => {
       expect(error.message).toBe('Config should be an array');
     }
   });
+
+  it('should return soph compare that correctly compares equal items', () => {
+    const arr = [
+      {
+        price: 32,
+        name: 'soy sauce packet',
+      },
+      {
+        price: 14,
+        name: 'bread',
+      },
+      {
+        price: 14,
+        name: 'avocado',
+      },
+    ];
+
+    const config = [
+      {
+        prop: 'price',
+      },
+    ];
+
+    expect(arr.sort(sophCompare(config))).toEqual([
+      {
+        price: 14,
+        name: 'bread',
+      },
+      {
+        price: 14,
+        name: 'avocado',
+      },
+      {
+        price: 32,
+        name: 'soy sauce packet',
+      },
+    ]);
+  });
 });
 
 describe('prop', () => {
