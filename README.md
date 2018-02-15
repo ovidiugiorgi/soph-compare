@@ -1,5 +1,7 @@
 # Soph Compare
 
+[![Build Status](https://travis-ci.org/ovidiugiorgi/soph-compare.svg?branch=master)](https://travis-ci.org/ovidiugiorgi/soph-compare)
+
 Sophisticated compare function for JavaScript ordering.
 
 ## Motivation
