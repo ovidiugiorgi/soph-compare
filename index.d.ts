@@ -10,5 +10,6 @@ declare namespace sophCompare {
     descending?: boolean;
     transform?: (a: any) => any;
     compare?: (a: any, b: any) => number;
+    subConfig?: sophCompare.OrderItem[];
   }
 }

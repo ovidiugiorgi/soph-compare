@@ -6,9 +6,9 @@ Sophisticated compare function for JavaScript ordering.
 
 A commom problem in software development is defining a custom order for an object so that it can be compared to other objects of it's type (e.g. sorting an array of objects by a particular property).
 
-Enter **_soph compare_**: an utility function that aims to reduce the need for complicated logic when defining an order over an object type by allowing you to specify the **priority** in which the properties should be checked, a **direction** (ascending / descending), a **transform** function (which can be used to transform values, e.g. string -> boolean) and a **compare** function (which can be user defined or even returned by the soph compare function itself).
+Enter **_soph compare_**: an utility function that aims to reduce the need for complicated logic when defining an order over an object type by allowing you to specify the **priority** in which the properties should be checked, a **direction** (ascending / descending), a **transform** function (map a property) and a **subConfig** (configuration for nested objects) / **compare** function (user defined or returned by soph compare itself).
 
-By allowing the configuration to receive a compare function you can specifiy precisely the desired order of your object, _no matter how many more containg objects it contains_ (different ordering rules will be generated separately).
+By allowing the configuration to receive a subConfig or a compare function you can define the order for an object, including its nested objects. If a subConfig property is provided then soph compare will recursively generate the compare function.
 
 ## Usage
 
@@ -60,10 +60,11 @@ interface OrderItem {
     descending?: boolean;
     transform?: (a) => any;
     compare?: (a, b) => number;
+    subConfig?: sophCompare.OrderItem[];
 }
 ```
 
-The **priority** for evaluating each configuration item is defined by it's index from the configuration array. So, **order is important**.
+The **priority** for evaluating each configuration item is defined by it's index from the configuration array, so **order is important**.
 
 ## Examples
 
@@ -194,6 +195,101 @@ expect(arr.sort(sophCompare(config))).toEqual([
   {
     price: 32,
     name: 'soy sauce packet',
+  },
+]);
+```
+
+* **subConfig**
+
+```javascript
+const arr = [
+  {
+    price: 32,
+    name: 'soy sauce packet',
+    vendors: {
+      count: 10,
+      location: 'RO',
+    },
+  },
+  {
+    price: 48,
+    name: 'bread',
+    vendors: {
+      count: 3,
+      location: 'UK',
+    },
+  },
+  {
+    price: 15,
+    name: 'avocado',
+    vendors: {
+      count: 15,
+      location: 'DE',
+    },
+  },
+  {
+    price: 8,
+    name: 'kiwi',
+    vendors: {
+      count: 15,
+      location: 'NZ',
+    },
+  },
+];
+
+const config = [
+  {
+    prop: 'vendors',
+    subConfig: [
+      {
+        prop: 'count',
+      },
+      {
+        prop: 'location',
+        descending: true,
+      },
+    ],
+  },
+  {
+    prop: 'price',
+  },
+  {
+    prop: 'name',
+  },
+];
+
+expect(arr.sort(sophCompare(config))).toEqual([
+  {
+    price: 48,
+    name: 'bread',
+    vendors: {
+      count: 3,
+      location: 'UK',
+    },
+  },
+  {
+    price: 32,
+    name: 'soy sauce packet',
+    vendors: {
+      count: 10,
+      location: 'RO',
+    },
+  },
+  {
+    price: 8,
+    name: 'kiwi',
+    vendors: {
+      count: 15,
+      location: 'NZ',
+    },
+  },
+  {
+    price: 15,
+    name: 'avocado',
+    vendors: {
+      count: 15,
+      location: 'DE',
+    },
   },
 ]);
 ```

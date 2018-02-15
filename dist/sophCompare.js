@@ -21,7 +21,21 @@ var getSafeFunction = function getSafeFunction(orderItem, propName) {
 };
 
 var getCompareFunction = function getCompareFunction(orderItem) {
-  var compareFunction = orderItem.compare ? getSafeFunction(orderItem, 'compare') : defaultCompare;
+  var subConfig = orderItem.subConfig,
+      compare = orderItem.compare;
+
+
+  if (subConfig && compare) {
+    throw new Error('Both subConfig and compare cannot be provided for the same order item');
+  }
+
+  var compareFunction = defaultCompare;
+
+  if (orderItem.subConfig) {
+    compareFunction = sophCompare(orderItem.subConfig);
+  } else if (orderItem.compare) {
+    compareFunction = getSafeFunction(orderItem, 'compare');
+  }
 
   return orderItem.descending ? function (a, b) {
     return -1 * compareFunction(a, b);

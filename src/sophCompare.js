@@ -19,9 +19,21 @@ const getSafeFunction = (orderItem, propName) => {
 };
 
 const getCompareFunction = (orderItem) => {
-  const compareFunction = orderItem.compare
-    ? getSafeFunction(orderItem, 'compare')
-    : defaultCompare;
+  const { subConfig, compare } = orderItem;
+
+  if (subConfig && compare) {
+    throw new Error(
+      'Both subConfig and compare cannot be provided for the same order item'
+    );
+  }
+
+  let compareFunction = defaultCompare;
+
+  if (orderItem.subConfig) {
+    compareFunction = sophCompare(orderItem.subConfig);
+  } else if (orderItem.compare) {
+    compareFunction = getSafeFunction(orderItem, 'compare');
+  }
 
   return orderItem.descending
     ? (a, b) => -1 * compareFunction(a, b)

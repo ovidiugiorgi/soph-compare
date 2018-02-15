@@ -4,7 +4,9 @@
   "rules": {
     "consistent-return": "off",
     "arrow-parens": "off",
-    "no-confusing-arrow": "off"
+    "no-confusing-arrow": "off",
+    "no-use-before-define": "off",
+    "function-paren-newline": "off"
   },
   "env": {
     "jest/globals": true

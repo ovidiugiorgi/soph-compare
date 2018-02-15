@@ -573,3 +573,149 @@ describe('compare', () => {
     }
   });
 });
+
+describe('subConfig', () => {
+  it('should return soph compare when subConfig is provided', () => {
+    const arr = [
+      {
+        price: 32,
+        name: 'soy sauce packet',
+        vendors: {
+          count: 10,
+          location: 'RO',
+        },
+      },
+      {
+        price: 48,
+        name: 'bread',
+        vendors: {
+          count: 3,
+          location: 'UK',
+        },
+      },
+      {
+        price: 15,
+        name: 'avocado',
+        vendors: {
+          count: 15,
+          location: 'DE',
+        },
+      },
+      {
+        price: 8,
+        name: 'kiwi',
+        vendors: {
+          count: 15,
+          location: 'NZ',
+        },
+      },
+    ];
+
+    const config = [
+      {
+        prop: 'vendors',
+        subConfig: [
+          {
+            prop: 'count',
+          },
+          {
+            prop: 'location',
+            descending: true,
+          },
+        ],
+      },
+      {
+        prop: 'price',
+      },
+      {
+        prop: 'name',
+      },
+    ];
+
+    expect(arr.sort(sophCompare(config))).toEqual([
+      {
+        price: 48,
+        name: 'bread',
+        vendors: {
+          count: 3,
+          location: 'UK',
+        },
+      },
+      {
+        price: 32,
+        name: 'soy sauce packet',
+        vendors: {
+          count: 10,
+          location: 'RO',
+        },
+      },
+      {
+        price: 8,
+        name: 'kiwi',
+        vendors: {
+          count: 15,
+          location: 'NZ',
+        },
+      },
+      {
+        price: 15,
+        name: 'avocado',
+        vendors: {
+          count: 15,
+          location: 'DE',
+        },
+      },
+    ]);
+  });
+
+  it('should throw error when both subConfig and compare are provided', () => {
+    const arr = [
+      {
+        price: 32,
+        name: 'soy sauce packet',
+        vendors: {
+          count: 10,
+          location: 'RO',
+        },
+      },
+      {
+        price: 48,
+        name: 'bread',
+        vendors: {
+          count: 3,
+          location: 'UK',
+        },
+      },
+    ];
+
+    const config = [
+      {
+        prop: 'vendors',
+        subConfig: [
+          {
+            prop: 'count',
+          },
+          {
+            prop: 'location',
+            descending: true,
+          },
+        ],
+        compare: (a, b) => a.count - b.count,
+      },
+      {
+        prop: 'price',
+      },
+      {
+        prop: 'name',
+      },
+    ];
+
+    try {
+      expect(arr.sort(sophCompare(config))).toThrow();
+    } catch (error) {
+      expect(error.message).toBe(
+        'Both subConfig and compare cannot be provided for the same order item'
+      );
+    }
+  });
+});
