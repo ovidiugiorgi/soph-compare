@@ -1,6 +1,7 @@
 # Soph Compare
 
 [![Build Status](https://travis-ci.org/ovidiugiorgi/soph-compare.svg?branch=master)](https://travis-ci.org/ovidiugiorgi/soph-compare)
+[![Coverage Status](https://coveralls.io/repos/github/ovidiugiorgi/soph-compare/badge.svg)](https://coveralls.io/github/ovidiugiorgi/soph-compare)
 
 Sophisticated compare function for JavaScript ordering.
 
