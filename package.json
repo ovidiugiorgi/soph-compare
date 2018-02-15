@@ -9,7 +9,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test && npm run build && pretty-quick --staged"
+      "pre-commit":
+        "npm test && pretty-quick --staged && npm run build && git add dist/sophCompare.js"
     }
   },
   "repository": {

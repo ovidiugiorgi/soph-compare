@@ -21,15 +21,11 @@ var getSafeFunction = function getSafeFunction(orderItem, propName) {
 };
 
 var getCompareFunction = function getCompareFunction(orderItem) {
-  var compareFunction = orderItem.compare
-    ? getSafeFunction(orderItem, 'compare')
-    : compare;
+  var compareFunction = orderItem.compare ? getSafeFunction(orderItem, 'compare') : compare;
 
-  return orderItem.descending
-    ? function(a, b) {
-        return -1 * compareFunction(a, b);
-      }
-    : compareFunction;
+  return orderItem.descending ? function (a, b) {
+    return -1 * compareFunction(a, b);
+  } : compareFunction;
 };
 
 var getValue = function getValue(a, orderItem) {
@@ -39,9 +35,7 @@ var getValue = function getValue(a, orderItem) {
 
   var value = a[orderItem.prop];
 
-  return orderItem.transform
-    ? getSafeFunction(orderItem, 'transform')(value)
-    : value;
+  return orderItem.transform ? getSafeFunction(orderItem, 'transform')(value) : value;
 };
 
 var sophCompare = function sophCompare(orderList) {
@@ -56,7 +50,7 @@ var sophCompare = function sophCompare(orderList) {
     if (orderItem.transform) {
       var converterFunction = getSafeFunction(orderItem, 'transform');
 
-      return function(a, b) {
+      return function (a, b) {
         return compareFunction(converterFunction(a), converterFunction(b));
       };
     }
@@ -64,14 +58,11 @@ var sophCompare = function sophCompare(orderList) {
     return compareFunction;
   }
 
-  return function(a, b) {
+  return function (a, b) {
     for (var index = 0; index < orderList.length; index += 1) {
       var _orderItem = orderList[index];
       var _compareFunction = getCompareFunction(_orderItem);
-      var compareResult = _compareFunction(
-        getValue(a, _orderItem),
-        getValue(b, _orderItem)
-      );
+      var compareResult = _compareFunction(getValue(a, _orderItem), getValue(b, _orderItem));
 
       if (compareResult) {
         return compareResult;
