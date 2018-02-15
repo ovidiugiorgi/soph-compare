@@ -30,7 +30,7 @@ describe('prop', () => {
         descending: true,
       },
       {
-        converterFn: (a) => a + 1,
+        transform: (a) => a + 1,
       },
     ];
 
@@ -155,20 +155,20 @@ describe('descending', () => {
   });
 });
 
-describe('converterFn', () => {
-  it('should return soph compare when only one order item is provided and it has a converterFn function attached', () => {
+describe('transform', () => {
+  it('should return soph compare when only one order item is provided and it has a transform function attached', () => {
     const arr = [1, 2, 3];
 
     const cfg = [
       {
-        converterFn: (a) => a % 2 === 0,
+        transform: (a) => a % 2 === 0,
       },
     ];
 
     expect(arr.sort(sophCompare(cfg))).toEqual([1, 3, 2]);
   });
 
-  it('should return soph compare when order items have a converterFn function attached: any to boolean', () => {
+  it('should return soph compare when order items have a transform function attached: any to boolean', () => {
     const arr = [
       {
         price: 32,
@@ -187,7 +187,7 @@ describe('converterFn', () => {
     const cfg = [
       {
         prop: 'price',
-        converterFn: (a) => a % 2 === 0,
+        transform: (a) => a % 2 === 0,
         descending: true,
       },
       {
@@ -211,7 +211,7 @@ describe('converterFn', () => {
     ]);
   });
 
-  it('should return soph compare when order items have a converterFn function attached: string to number', () => {
+  it('should return soph compare when order items have a transform function attached: string to number', () => {
     const arr = [
       {
         price: 32,
@@ -230,7 +230,7 @@ describe('converterFn', () => {
     const cfg = [
       {
         prop: 'name',
-        converterFn: (a) => a.length,
+        transform: (a) => a.length,
       },
       {
         prop: 'price',
@@ -253,23 +253,23 @@ describe('converterFn', () => {
     ]);
   });
 
-  it('throws error when only one order item is provided and it has a converterFn attached which is not a function', () => {
+  it('throws error when only one order item is provided and it has a transform property attached which is not a function', () => {
     const arr = [1, 2, 3];
 
     const cfg = [
       {
-        converterFn: 2,
+        transform: 2,
       },
     ];
 
     try {
       expect(arr.sort(sophCompare(cfg))).toThrow();
     } catch (error) {
-      expect(error.message).toBe('Provided "converterFn" is not a function');
+      expect(error.message).toBe('Provided "transform" is not a function');
     }
   });
 
-  it('throws error when order items have a converterFn attached which is not a function', () => {
+  it('throws error when order items have a transform property attached which is not a function', () => {
     const arr = [
       {
         price: 32,
@@ -292,7 +292,7 @@ describe('converterFn', () => {
     const cfg = [
       {
         prop: 'price',
-        converterFn: 2,
+        transform: 2,
         descending: true,
       },
     ];
@@ -300,13 +300,13 @@ describe('converterFn', () => {
     try {
       expect(arr.sort(sophCompare(cfg))).toThrow();
     } catch (error) {
-      expect(error.message).toBe('Provided "converterFn" is not a function');
+      expect(error.message).toBe('Provided "transform" is not a function');
     }
   });
 });
 
-describe('compareFn', () => {
-  it('should return soph compare when only one order item is provided and it has a compareFn function attached', () => {
+describe('compare', () => {
+  it('should return soph compare when only one order item is provided and it has a compare function attached', () => {
     const arr = [
       {
         price: 32,
@@ -328,7 +328,7 @@ describe('compareFn', () => {
 
     const cfg = [
       {
-        compareFn: (a, b) => a.price - b.price,
+        compare: (a, b) => a.price - b.price,
       },
     ];
 
@@ -352,7 +352,7 @@ describe('compareFn', () => {
     ]);
   });
 
-  it('should return soph compare when order items have basic compareFns attached', () => {
+  it('should return soph compare when order items have a basic compare function attached', () => {
     const arr = [
       {
         price: 32,
@@ -391,7 +391,7 @@ describe('compareFn', () => {
     const cfg = [
       {
         prop: 'vendors',
-        compareFn: (a, b) => a.count - b.count,
+        compare: (a, b) => a.count - b.count,
       },
       {
         prop: 'price',
@@ -437,7 +437,7 @@ describe('compareFn', () => {
     ]);
   });
 
-  it('should return soph compare when order items have soph compareFns attached', () => {
+  it('should return soph compare when order items have a soph compare function attached', () => {
     const arr = [
       {
         price: 32,
@@ -476,7 +476,7 @@ describe('compareFn', () => {
     const cfg = [
       {
         prop: 'vendors',
-        compareFn: sophCompare([
+        compare: sophCompare([
           {
             prop: 'count',
           },
@@ -530,7 +530,7 @@ describe('compareFn', () => {
     ]);
   });
 
-  it('throws error when only one order item is provided and it has a compareFn attached which is not a function', () => {
+  it('throws error when only one order item is provided and it has a compare property attached which is not a function', () => {
     const arr = [
       {
         price: 32,
@@ -552,18 +552,18 @@ describe('compareFn', () => {
 
     const cfg = [
       {
-        compareFn: 2,
+        compare: 2,
       },
     ];
 
     try {
       expect(arr.sort(sophCompare(cfg))).toThrow();
     } catch (error) {
-      expect(error.message).toBe('Provided "compareFn" is not a function');
+      expect(error.message).toBe('Provided "compare" is not a function');
     }
   });
 
-  it('throws error when order items have a compareFn attached which is not a function', () => {
+  it('throws error when order items have a compare property attached which is not a function', () => {
     const arr = [
       {
         price: 32,
@@ -586,14 +586,14 @@ describe('compareFn', () => {
     const cfg = [
       {
         property: 'price',
-        compareFn: 2,
+        compare: 2,
       },
     ];
 
     try {
       expect(arr.sort(sophCompare(cfg))).toThrow();
     } catch (error) {
-      expect(error.message).toBe('Provided "compareFn" is not a function');
+      expect(error.message).toBe('Provided "compare" is not a function');
     }
   });
 });

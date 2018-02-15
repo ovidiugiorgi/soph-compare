@@ -19,8 +19,8 @@ const getSafeFunction = (orderItem, propName) => {
 };
 
 const getCompareFunction = (orderItem) => {
-  const compareFunction = orderItem.compareFn
-    ? getSafeFunction(orderItem, 'compareFn')
+  const compareFunction = orderItem.compare
+    ? getSafeFunction(orderItem, 'compare')
     : compare;
 
   return orderItem.descending
@@ -35,8 +35,8 @@ const getValue = (a, orderItem) => {
 
   const value = a[orderItem.prop];
 
-  return orderItem.converterFn
-    ? getSafeFunction(orderItem, 'converterFn')(value)
+  return orderItem.transform
+    ? getSafeFunction(orderItem, 'transform')(value)
     : value;
 };
 
@@ -49,8 +49,8 @@ const sophCompare = (orderList) => {
     const orderItem = orderList[0];
     const compareFunction = getCompareFunction(orderItem);
 
-    if (orderItem.converterFn) {
-      const converterFunction = getSafeFunction(orderItem, 'converterFn');
+    if (orderItem.transform) {
+      const converterFunction = getSafeFunction(orderItem, 'transform');
 
       return (a, b) =>
         compareFunction(converterFunction(a), converterFunction(b));

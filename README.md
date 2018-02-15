@@ -6,37 +6,43 @@ Sophisticated compare function for JavaScript ordering.
 
 A commom problem in software development is defining a custom order for an object so that it can be compared to other objects of it's type (e.g. sorting an array of objects by a particular property).
 
-Enter **_soph compare_**: an utility function that aims to reduce the need for complicated logic when defining an order over an object type by allowing you to specify the **priority** in which the properties should be checked, a **direction** (ascending / descending), a **converter function** (which can be used to transform values, e.g. string -> boolean) and a **compare function** (which can be user defined or even returned by the soph compare function itself).
+Enter **_soph compare_**: an utility function that aims to reduce the need for complicated logic when defining an order over an object type by allowing you to specify the **priority** in which the properties should be checked, a **direction** (ascending / descending), a **transform** function (which can be used to transform values, e.g. string -> boolean) and a **compare** function (which can be user defined or even returned by the soph compare function itself).
 
 By allowing the configuration to receive a compare function you can specifiy precisely the desired order of your object, _no matter how many more containg objects it contains_ (different ordering rules will be generated separately).
 
 ## Usage
 
 1. Get the package from npm
+
 ```
 npm install soph-compare
 ```
+
 2. Import it in your project
 
-  * require 
+* require
+
 ```javascript
-const sophCompare = require('soph-compare')
+const sophCompare = require('soph-compare');
 ```
-  * ES6 import
+
+* ES6 import
+
 ```javascript
-import * as sophCompare from 'soph-compare'
+import * as sophCompare from 'soph-compare';
 ```
 
 3. Define a configuration object and call sophCompare to get the compare function
+
 ```javascript
 const cfg = [
   {
     prop: 'myProp',
-    descending: true
+    descending: true,
   },
   {
-    prop: 'anotherProp'
-  }
+    prop: 'anotherProp',
+  },
 ];
 const compare = sophCompare(cfg);
 
@@ -52,8 +58,8 @@ function sophCompare(cfg?: OrderItem[]): (a, b) => number;
 interface OrderItem {
     prop?: string | number;
     descending?: boolean;
-    converterFn?: (a) => any;
-    compareFn?: (a, b) => number;
+    transform?: (a) => any;
+    compare?: (a, b) => number;
 }
 ```
 
@@ -148,7 +154,7 @@ expect(arr.sort(sophCompare(cfg))).toEqual([
 ]);
 ```
 
-* **converterFn**
+* **transform**
 
 ```javascript
 const arr = [
@@ -169,7 +175,7 @@ const arr = [
 const cfg = [
   {
     prop: 'name',
-    converterFn: (a) => a.length,
+    transform: (a) => a.length,
   },
   {
     prop: 'price',
@@ -192,7 +198,7 @@ expect(arr.sort(sophCompare(cfg))).toEqual([
 ]);
 ```
 
-* User defined **compareFn**
+* User defined **compare**
 
 ```javascript
 const arr = [
@@ -233,7 +239,7 @@ const arr = [
 const cfg = [
   {
     prop: 'vendors',
-    compareFn: (a, b) => a.count - b.count,
+    compare: (a, b) => a.count - b.count,
   },
   {
     prop: 'price',
@@ -279,7 +285,7 @@ expect(arr.sort(sophCompare(cfg))).toEqual([
 ]);
 ```
 
-* **compareFn** returned by sophCompare
+* **compare** returned by sophCompare
 
 ```javascript
 const arr = [
@@ -320,7 +326,7 @@ const arr = [
 const cfg = [
   {
     prop: 'vendors',
-    compareFn: sophCompare([
+    compare: sophCompare([
       {
         prop: 'count',
       },
