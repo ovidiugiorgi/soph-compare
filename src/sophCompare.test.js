@@ -1,44 +1,39 @@
 const sophCompare = require('./sophCompare');
 
-describe('no order provided', () => {
-  it('should return soph compare if no order is provided - numbers', () => {
+describe('config', () => {
+  it('should return soph compare if no config is provided - numbers', () => {
     const arr = [5, 4, -2, 12, 11, 4];
-    const arrSorted = [...arr].sort((a, b) => a - b);
 
-    expect(arr.sort(sophCompare())).toEqual(arrSorted);
+    expect(arr.sort(sophCompare())).toEqual([-2, 4, 4, 5, 11, 12]);
   });
 
-  it('should return soph compare if no order is provided - strings', () => {
+  it('should return soph compare if no config is provided - strings', () => {
     const arr = ['flower', 'water', 'conditioner', 'water'];
-    const arrSorted = [...arr].sort((a, b) => a > b);
 
-    expect(arr.sort(sophCompare())).toEqual(arrSorted);
+    expect(arr.sort(sophCompare())).toEqual([
+      'conditioner',
+      'flower',
+      'water',
+      'water',
+    ]);
   });
 
-  it('should return soph compare if an empty order list is provided', () => {
+  it('should return soph compare if an empty config array is provided', () => {
     const arr = [5, 4, -2, 12, 11, 4];
-    const arrSorted = [...arr].sort((a, b) => a - b);
 
-    expect(arr.sort(sophCompare([]))).toEqual(arrSorted);
+    expect(arr.sort(sophCompare([]))).toEqual([-2, 4, 4, 5, 11, 12]);
+  });
+
+  it('should throw error when config is not an array', () => {
+    try {
+      sophCompare({});
+    } catch (error) {
+      expect(error.message).toBe('Config should be an array');
+    }
   });
 });
 
 describe('prop', () => {
-  it('throws error when order items do not have "prop"', () => {
-    const config = [
-      {
-        descending: true,
-      },
-      {
-        transform: (a) => a + 1,
-      },
-    ];
-
-    expect(sophCompare(config)).toThrowError(
-      'No "prop" on order item provided'
-    );
-  });
-
   it('should return soph compare when order list has items with prop attached', () => {
     const arr = [
       {
@@ -97,6 +92,25 @@ describe('prop', () => {
       [1, 2, 6],
       [4, 5, 6],
     ]);
+  });
+
+  it('should throw error when order items do not have prop', () => {
+    const arr = [5, 4, -2, 12, 11, 4];
+
+    const config = [
+      {
+        descending: true,
+      },
+      {
+        transform: (a) => a + 1,
+      },
+    ];
+
+    try {
+      expect(arr.sort(sophCompare(config)).toThrow());
+    } catch (error) {
+      expect(error.message).toBe('No "prop" on order item provided');
+    }
   });
 });
 
@@ -255,9 +269,7 @@ describe('transform', () => {
     ]);
   });
 
-  it('throws error when only one order item is provided and it has a transform property attached which is not a function', () => {
-    const arr = [1, 2, 3];
-
+  it('should throw error when only one order item is provided and it has a transform property attached which is not a function', () => {
     const config = [
       {
         transform: 2,
@@ -265,13 +277,13 @@ describe('transform', () => {
     ];
 
     try {
-      expect(arr.sort(sophCompare(config))).toThrow();
+      expect(sophCompare(config)).toThrow();
     } catch (error) {
       expect(error.message).toBe('Provided "transform" is not a function');
     }
   });
 
-  it('throws error when order items have a transform property attached which is not a function', () => {
+  it('should throw error when order items have a transform property attached which is not a function', () => {
     const arr = [
       {
         price: 32,
@@ -282,7 +294,7 @@ describe('transform', () => {
         },
       },
       {
-        price: 48,
+        price: 12,
         name: 'bread',
         vendors: {
           count: 3,
@@ -532,26 +544,7 @@ describe('compare', () => {
     ]);
   });
 
-  it('throws error when only one order item is provided and it has a compare property attached which is not a function', () => {
-    const arr = [
-      {
-        price: 32,
-        name: 'soy sauce packet',
-        vendors: {
-          count: 10,
-          location: 'RO',
-        },
-      },
-      {
-        price: 12,
-        name: 'bread',
-        vendors: {
-          count: 3,
-          location: 'UK',
-        },
-      },
-    ];
-
+  it('should throw error when only one order item is provided and it has a compare property attached which is not a function', () => {
     const config = [
       {
         compare: 2,
@@ -559,32 +552,13 @@ describe('compare', () => {
     ];
 
     try {
-      expect(arr.sort(sophCompare(config))).toThrow();
+      expect(sophCompare(config)).toThrow();
     } catch (error) {
       expect(error.message).toBe('Provided "compare" is not a function');
     }
   });
 
-  it('throws error when order items have a compare property attached which is not a function', () => {
-    const arr = [
-      {
-        price: 32,
-        name: 'soy sauce packet',
-        vendors: {
-          count: 10,
-          location: 'RO',
-        },
-      },
-      {
-        price: 12,
-        name: 'bread',
-        vendors: {
-          count: 3,
-          location: 'UK',
-        },
-      },
-    ];
-
+  it('should throw error when order items have a compare property attached which is not a function', () => {
     const config = [
       {
         property: 'price',
@@ -593,7 +567,7 @@ describe('compare', () => {
     ];
 
     try {
-      expect(arr.sort(sophCompare(config))).toThrow();
+      expect(sophCompare(config)).toThrow();
     } catch (error) {
       expect(error.message).toBe('Provided "compare" is not a function');
     }

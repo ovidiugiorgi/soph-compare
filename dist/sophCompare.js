@@ -1,6 +1,6 @@
 'use strict';
 
-var compare = function compare(a, b) {
+var defaultCompare = function defaultCompare(a, b) {
   if (a < b) {
     return -1;
   } else if (b < a) {
@@ -21,7 +21,7 @@ var getSafeFunction = function getSafeFunction(orderItem, propName) {
 };
 
 var getCompareFunction = function getCompareFunction(orderItem) {
-  var compareFunction = orderItem.compare ? getSafeFunction(orderItem, 'compare') : compare;
+  var compareFunction = orderItem.compare ? getSafeFunction(orderItem, 'compare') : defaultCompare;
 
   return orderItem.descending ? function (a, b) {
     return -1 * compareFunction(a, b);
@@ -38,13 +38,21 @@ var getValue = function getValue(a, orderItem) {
   return orderItem.transform ? getSafeFunction(orderItem, 'transform')(value) : value;
 };
 
-var sophCompare = function sophCompare(orderList) {
-  if (!orderList || orderList.length === 0) {
-    return compare;
+var sophCompare = function sophCompare(config) {
+  if (!config) {
+    return defaultCompare;
   }
 
-  if (orderList.length === 1 && !orderList[0].prop) {
-    var orderItem = orderList[0];
+  if (!Array.isArray(config)) {
+    throw new Error('Config should be an array');
+  }
+
+  if (config.length === 0) {
+    return defaultCompare;
+  }
+
+  if (config.length === 1 && !config[0].prop) {
+    var orderItem = config[0];
     var compareFunction = getCompareFunction(orderItem);
 
     if (orderItem.transform) {
@@ -59,8 +67,8 @@ var sophCompare = function sophCompare(orderList) {
   }
 
   return function (a, b) {
-    for (var index = 0; index < orderList.length; index += 1) {
-      var _orderItem = orderList[index];
+    for (var index = 0; index < config.length; index += 1) {
+      var _orderItem = config[index];
       var _compareFunction = getCompareFunction(_orderItem);
       var compareResult = _compareFunction(getValue(a, _orderItem), getValue(b, _orderItem));
 

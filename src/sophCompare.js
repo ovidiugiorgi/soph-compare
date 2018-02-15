@@ -1,4 +1,4 @@
-const compare = (a, b) => {
+const defaultCompare = (a, b) => {
   if (a < b) {
     return -1;
   } else if (b < a) {
@@ -21,7 +21,7 @@ const getSafeFunction = (orderItem, propName) => {
 const getCompareFunction = (orderItem) => {
   const compareFunction = orderItem.compare
     ? getSafeFunction(orderItem, 'compare')
-    : compare;
+    : defaultCompare;
 
   return orderItem.descending
     ? (a, b) => -1 * compareFunction(a, b)
@@ -40,13 +40,21 @@ const getValue = (a, orderItem) => {
     : value;
 };
 
-const sophCompare = (orderList) => {
-  if (!orderList || orderList.length === 0) {
-    return compare;
+const sophCompare = (config) => {
+  if (!config) {
+    return defaultCompare;
   }
 
-  if (orderList.length === 1 && !orderList[0].prop) {
-    const orderItem = orderList[0];
+  if (!Array.isArray(config)) {
+    throw new Error('Config should be an array');
+  }
+
+  if (config.length === 0) {
+    return defaultCompare;
+  }
+
+  if (config.length === 1 && !config[0].prop) {
+    const orderItem = config[0];
     const compareFunction = getCompareFunction(orderItem);
 
     if (orderItem.transform) {
@@ -60,8 +68,8 @@ const sophCompare = (orderList) => {
   }
 
   return (a, b) => {
-    for (let index = 0; index < orderList.length; index += 1) {
-      const orderItem = orderList[index];
+    for (let index = 0; index < config.length; index += 1) {
+      const orderItem = config[index];
       const compareFunction = getCompareFunction(orderItem);
       const compareResult = compareFunction(
         getValue(a, orderItem),
