@@ -35,7 +35,7 @@ import * as sophCompare from 'soph-compare';
 3. Define a configuration object and call sophCompare to get the compare function
 
 ```javascript
-const cfg = [
+const config = [
   {
     prop: 'myProp',
     descending: true,
@@ -44,7 +44,7 @@ const cfg = [
     prop: 'anotherProp',
   },
 ];
-const compare = sophCompare(cfg);
+const compare = sophCompare(config);
 
 compare(arr1, arr2);
 arr3.sort(compare);
@@ -53,7 +53,7 @@ arr3.sort(compare);
 ## API
 
 ```javascript
-function sophCompare(cfg?: OrderItem[]): (a, b) => number;
+function sophCompare(config?: OrderItem[]): (a, b) => number;
 
 interface OrderItem {
     prop?: string | number;
@@ -85,7 +85,7 @@ const arr = [
   },
 ];
 
-const cfg = [
+const config = [
   {
     prop: 'price',
   },
@@ -94,7 +94,7 @@ const cfg = [
   },
 ];
 
-expect(arr.sort(sophCompare(cfg))).toEqual([
+expect(arr.sort(sophCompare(config))).toEqual([
   {
     price: 14,
     name: 'avocado',
@@ -128,7 +128,7 @@ const arr = [
   },
 ];
 
-const cfg = [
+const config = [
   {
     prop: 'price',
   },
@@ -138,7 +138,7 @@ const cfg = [
   },
 ];
 
-expect(arr.sort(sophCompare(cfg))).toEqual([
+expect(arr.sort(sophCompare(config))).toEqual([
   {
     price: 14,
     name: 'bread',
@@ -172,7 +172,7 @@ const arr = [
   },
 ];
 
-const cfg = [
+const config = [
   {
     prop: 'name',
     transform: (a) => a.length,
@@ -182,7 +182,7 @@ const cfg = [
   },
 ];
 
-expect(arr.sort(sophCompare(cfg))).toEqual([
+expect(arr.sort(sophCompare(config))).toEqual([
   {
     price: 48,
     name: 'bread',
@@ -236,7 +236,7 @@ const arr = [
   },
 ];
 
-const cfg = [
+const config = [
   {
     prop: 'vendors',
     compare: (a, b) => a.count - b.count,
@@ -249,7 +249,7 @@ const cfg = [
   },
 ];
 
-expect(arr.sort(sophCompare(cfg))).toEqual([
+expect(arr.sort(sophCompare(config))).toEqual([
   {
     price: 48,
     name: 'bread',
@@ -323,7 +323,7 @@ const arr = [
   },
 ];
 
-const cfg = [
+const config = [
   {
     prop: 'vendors',
     compare: sophCompare([
@@ -344,7 +344,7 @@ const cfg = [
   },
 ];
 
-expect(arr.sort(sophCompare(cfg))).toEqual([
+expect(arr.sort(sophCompare(config))).toEqual([
   {
     price: 48,
     name: 'bread',

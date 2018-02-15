@@ -25,7 +25,7 @@ describe('no order provided', () => {
 
 describe('prop', () => {
   it('throws error when order items do not have "prop"', () => {
-    const cfg = [
+    const config = [
       {
         descending: true,
       },
@@ -34,7 +34,9 @@ describe('prop', () => {
       },
     ];
 
-    expect(sophCompare(cfg)).toThrowError('No "prop" on order item provided');
+    expect(sophCompare(config)).toThrowError(
+      'No "prop" on order item provided'
+    );
   });
 
   it('should return soph compare when order list has items with prop attached', () => {
@@ -53,7 +55,7 @@ describe('prop', () => {
       },
     ];
 
-    const cfg = [
+    const config = [
       {
         prop: 'price',
       },
@@ -62,7 +64,7 @@ describe('prop', () => {
       },
     ];
 
-    expect(arr.sort(sophCompare(cfg))).toEqual([
+    expect(arr.sort(sophCompare(config))).toEqual([
       {
         price: 14,
         name: 'avocado',
@@ -81,7 +83,7 @@ describe('prop', () => {
   it('should return soph compare when "prop" is of type number', () => {
     const arr = [[4, 5, 6], [1, 2, 6], [1, 10, 5]];
 
-    const cfg = [
+    const config = [
       {
         prop: 0,
       },
@@ -90,7 +92,7 @@ describe('prop', () => {
       },
     ];
 
-    expect(arr.sort(sophCompare(cfg))).toEqual([
+    expect(arr.sort(sophCompare(config))).toEqual([
       [1, 10, 5],
       [1, 2, 6],
       [4, 5, 6],
@@ -103,13 +105,13 @@ describe('descending', () => {
     const arr = [4, 2, 5, 8, 10];
     const arrSorted = [...arr].sort((a, b) => a < b);
 
-    const cfg = [
+    const config = [
       {
         descending: true,
       },
     ];
 
-    expect(arr.sort(sophCompare(cfg))).toEqual(arrSorted);
+    expect(arr.sort(sophCompare(config))).toEqual(arrSorted);
   });
 
   it('should return soph compare when order items have descending: true', () => {
@@ -128,7 +130,7 @@ describe('descending', () => {
       },
     ];
 
-    const cfg = [
+    const config = [
       {
         prop: 'price',
       },
@@ -138,7 +140,7 @@ describe('descending', () => {
       },
     ];
 
-    expect(arr.sort(sophCompare(cfg))).toEqual([
+    expect(arr.sort(sophCompare(config))).toEqual([
       {
         price: 14,
         name: 'bread',
@@ -159,13 +161,13 @@ describe('transform', () => {
   it('should return soph compare when only one order item is provided and it has a transform function attached', () => {
     const arr = [1, 2, 3];
 
-    const cfg = [
+    const config = [
       {
         transform: (a) => a % 2 === 0,
       },
     ];
 
-    expect(arr.sort(sophCompare(cfg))).toEqual([1, 3, 2]);
+    expect(arr.sort(sophCompare(config))).toEqual([1, 3, 2]);
   });
 
   it('should return soph compare when order items have a transform function attached: any to boolean', () => {
@@ -184,7 +186,7 @@ describe('transform', () => {
       },
     ];
 
-    const cfg = [
+    const config = [
       {
         prop: 'price',
         transform: (a) => a % 2 === 0,
@@ -195,7 +197,7 @@ describe('transform', () => {
       },
     ];
 
-    expect(arr.sort(sophCompare(cfg))).toEqual([
+    expect(arr.sort(sophCompare(config))).toEqual([
       {
         price: 48,
         name: 'bread',
@@ -227,7 +229,7 @@ describe('transform', () => {
       },
     ];
 
-    const cfg = [
+    const config = [
       {
         prop: 'name',
         transform: (a) => a.length,
@@ -237,7 +239,7 @@ describe('transform', () => {
       },
     ];
 
-    expect(arr.sort(sophCompare(cfg))).toEqual([
+    expect(arr.sort(sophCompare(config))).toEqual([
       {
         price: 48,
         name: 'bread',
@@ -256,14 +258,14 @@ describe('transform', () => {
   it('throws error when only one order item is provided and it has a transform property attached which is not a function', () => {
     const arr = [1, 2, 3];
 
-    const cfg = [
+    const config = [
       {
         transform: 2,
       },
     ];
 
     try {
-      expect(arr.sort(sophCompare(cfg))).toThrow();
+      expect(arr.sort(sophCompare(config))).toThrow();
     } catch (error) {
       expect(error.message).toBe('Provided "transform" is not a function');
     }
@@ -289,7 +291,7 @@ describe('transform', () => {
       },
     ];
 
-    const cfg = [
+    const config = [
       {
         prop: 'price',
         transform: 2,
@@ -298,7 +300,7 @@ describe('transform', () => {
     ];
 
     try {
-      expect(arr.sort(sophCompare(cfg))).toThrow();
+      expect(arr.sort(sophCompare(config))).toThrow();
     } catch (error) {
       expect(error.message).toBe('Provided "transform" is not a function');
     }
@@ -326,13 +328,13 @@ describe('compare', () => {
       },
     ];
 
-    const cfg = [
+    const config = [
       {
         compare: (a, b) => a.price - b.price,
       },
     ];
 
-    expect(arr.sort(sophCompare(cfg))).toEqual([
+    expect(arr.sort(sophCompare(config))).toEqual([
       {
         price: 12,
         name: 'bread',
@@ -388,7 +390,7 @@ describe('compare', () => {
       },
     ];
 
-    const cfg = [
+    const config = [
       {
         prop: 'vendors',
         compare: (a, b) => a.count - b.count,
@@ -401,7 +403,7 @@ describe('compare', () => {
       },
     ];
 
-    expect(arr.sort(sophCompare(cfg))).toEqual([
+    expect(arr.sort(sophCompare(config))).toEqual([
       {
         price: 48,
         name: 'bread',
@@ -473,7 +475,7 @@ describe('compare', () => {
       },
     ];
 
-    const cfg = [
+    const config = [
       {
         prop: 'vendors',
         compare: sophCompare([
@@ -494,7 +496,7 @@ describe('compare', () => {
       },
     ];
 
-    expect(arr.sort(sophCompare(cfg))).toEqual([
+    expect(arr.sort(sophCompare(config))).toEqual([
       {
         price: 48,
         name: 'bread',
@@ -550,14 +552,14 @@ describe('compare', () => {
       },
     ];
 
-    const cfg = [
+    const config = [
       {
         compare: 2,
       },
     ];
 
     try {
-      expect(arr.sort(sophCompare(cfg))).toThrow();
+      expect(arr.sort(sophCompare(config))).toThrow();
     } catch (error) {
       expect(error.message).toBe('Provided "compare" is not a function');
     }
@@ -583,7 +585,7 @@ describe('compare', () => {
       },
     ];
 
-    const cfg = [
+    const config = [
       {
         property: 'price',
         compare: 2,
@@ -591,7 +593,7 @@ describe('compare', () => {
     ];
 
     try {
-      expect(arr.sort(sophCompare(cfg))).toThrow();
+      expect(arr.sort(sophCompare(config))).toThrow();
     } catch (error) {
       expect(error.message).toBe('Provided "compare" is not a function');
     }
