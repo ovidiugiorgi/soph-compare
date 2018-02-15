@@ -5,7 +5,8 @@
   "main": "./dist/sophCompare.js",
   "scripts": {
     "build": "npx babel src/sophCompare.js --out-file dist/sophCompare.js",
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "husky": {
     "hooks": {
