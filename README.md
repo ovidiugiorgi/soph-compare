@@ -2,8 +2,16 @@
 
 [![Build Status](https://travis-ci.org/ovidiugiorgi/soph-compare.svg?branch=master)](https://travis-ci.org/ovidiugiorgi/soph-compare)
 [![Coverage Status](https://coveralls.io/repos/github/ovidiugiorgi/soph-compare/badge.svg)](https://coveralls.io/github/ovidiugiorgi/soph-compare)
+[![npm version](https://badge.fury.io/js/soph-compare.svg)](https://badge.fury.io/js/soph-compare)
 
 Sophisticated compare function for JavaScript ordering.
+
+## Table of contents
+
+* [Motivation](#motivation)
+* [Usage](#usage)
+* [Api](#api)
+* [Examples](#examples)
 
 ## Motivation
 
@@ -114,7 +122,7 @@ expect(arr.sort(sophCompare(config))).toEqual([
 ]);
 ```
 
-* **descending**
+* descending
 
 ```javascript
 const arr = [
@@ -158,7 +166,7 @@ expect(arr.sort(sophCompare(config))).toEqual([
 ]);
 ```
 
-* **transform**
+* transform
 
 ```javascript
 const arr = [
@@ -202,7 +210,7 @@ expect(arr.sort(sophCompare(config))).toEqual([
 ]);
 ```
 
-* **subConfig**
+* subConfig
 
 ```javascript
 const arr = [
@@ -297,7 +305,7 @@ expect(arr.sort(sophCompare(config))).toEqual([
 ]);
 ```
 
-* User defined **compare**
+* User defined compare
 
 ```javascript
 const arr = [
@@ -384,7 +392,7 @@ expect(arr.sort(sophCompare(config))).toEqual([
 ]);
 ```
 
-* **compare** returned by sophCompare
+* compare returned by sophCompare
 
 ```javascript
 const arr = [
