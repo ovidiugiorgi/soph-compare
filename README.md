@@ -6,7 +6,7 @@
 
 Sophisticated compare function for JavaScript ordering.
 
-## Table of contents
+## Table of content
 
 * [Motivation](#motivation)
 * [Usage](#usage)
